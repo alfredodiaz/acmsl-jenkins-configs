@@ -1,0 +1,48 @@
+commit fd9ab445878720487dd9be0e801509963cbd012d
+tree 01b60478bf0bcd872a209381d138f89f43ba8ba5
+parent 04441840c6f8d6405208d81854a605f8451fe88b
+author chous <chous@acm-sl.org> 1418074375 +0100
+committer chous <chous@acm-sl.org> 1418074375 +0100
+
+    Removed redundant information.
+
+:100644 100644 f1436ba12537d990f18b23954a1e5349e480f877 b726c63f82b0bf8bb810dc1739738f8bc63cfbb3 M	pom.xml
+
+commit 04441840c6f8d6405208d81854a605f8451fe88b
+tree 26cbd30346c59e79d8dda60874a090dcaea63b25
+parent 874ae19180bb59ad2361599083b2533f296efa6d
+author chous <chous@acm-sl.org> 1407748778 +0000
+committer chous <chous@acm-sl.org> 1407748778 +0000
+
+    Fixed some tests
+
+:100644 100644 c0372e1fb488b1baa9a457e3dfb739f1c3d8f3cb 022c266ba01eff24bd333d1206ae76741cfe2aee M	src/test/java/org/acmsl/commons/regexpplugin/gnuregexp/CompilerGNUAdapterTest.java
+:100644 000000 99fd545868392ea5dd674c90ac5eedd8584595d5 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/gnuregexp/GNURegexpEngineTest.java
+:100644 000000 d5426d03c4d97c8328df05efb96feeb5169df779 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/gnuregexp/GnuregexpSuite.java
+:100644 000000 36eb77f8ef3cdff513842ee4f17cd8e24d243bae 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/gnuregexp/HelperGNUAdapterTest.java
+:100644 100644 985d38b52cd18edc0f3f3684c2edf682e035b9f0 ef00a08f313ea1344eb3426aad1ba3d8a930a28c M	src/test/java/org/acmsl/commons/regexpplugin/gnuregexp/MatchResultGNUAdapterTest.java
+:100644 000000 53d0b9d5a0f7028acb1014827e89c1987d523c42 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/gnuregexp/MatcherGNUAdapterTest.java
+:100644 000000 fc152e60e68526cda8d39326b843b472790fbb91 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/gnuregexp/PatternGNUAdapterTest.java
+:100644 100644 8e0f1d038c9beb8b8bc81dd32b9990039b204802 e0832d5e6d318d844ed5e324579b7bf430f64f5b M	src/test/java/org/acmsl/commons/regexpplugin/jakartaoro/AwkCompilerOROAdapterTest.java
+:100644 000000 f458a48184a49fdaed65dbb767ebb1496a4ff656 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaoro/AwkMatcherOROAdapterTest.java
+:100644 100644 48b3adb716b914a4241f7000afa94f16070a2cdc 08c663d313688be901a4e2dd7936a579810a5cf2 M	src/test/java/org/acmsl/commons/regexpplugin/jakartaoro/HelperOROAdapterTest.java
+:100644 000000 21955e7065d7c9f188b43c51f71e2ea8e2e94f85 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaoro/JakartaoroSuite.java
+:100644 100644 4d45895565e3783fd129fa2178f37fb1fde1af42 43d5520943a387392858db060ea6c2d1eb01f169 M	src/test/java/org/acmsl/commons/regexpplugin/jakartaoro/MatchResultOROAdapterTest.java
+:100644 000000 c7d52970fa8872301ee5708a74b08f1567543ea1 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaoro/ORORegexpEngineTest.java
+:100644 000000 bf5b353b5e01b6be5cec898e053f0730c71b8430 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaoro/PatternOROAdapterTest.java
+:100644 100644 a9f3ce781ce223efcfc0713bd058315be3cca4ec 5a406bb6500e21bcf62a95bfac6e0eabf33a8868 M	src/test/java/org/acmsl/commons/regexpplugin/jakartaoro/Perl5CompilerOROAdapterTest.java
+:100644 000000 d1e4bf4df62ac0805150680715586901d7e8916d 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaoro/Perl5MatcherOROAdapterTest.java
+:100644 100644 6f8e34ade7d31ca0d3aec8f0f29229b8e2556816 dc504d5d6c2024b91c32197612dc3926f459679b M	src/test/java/org/acmsl/commons/regexpplugin/jakartaregexp/CompilerRegexpAdapterTest.java
+:100644 000000 9dfd54088fbad1c3ba7ad6089f97ce9fd08deaac 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaregexp/HelperRegexpAdapterTest.java
+:100644 000000 00c974b5b5fae7f6924ca6102c0f9bdcb5412df9 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaregexp/JakartaRegexpEngineTest.java
+:100644 000000 ee27e5513f3f13d44ea32afe4e91be19b89e1b58 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaregexp/JakartaregexpSuite.java
+:100644 000000 78d10db576e44770778a2b79bb4cedf708225091 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaregexp/MatchResultRegexpAdapterTest.java
+:100644 000000 430b6d5527b3ca1ff52442eb7a01295e4a8e8321 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaregexp/MatcherRegexpAdapterTest.java
+:100644 000000 5812b85fac478094ac20430b9e57173f919c091b 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jakartaregexp/PatternRegexpAdapterTest.java
+:100644 100644 f8858b40b03396d85ed8254e71e1c15689cf45da a08768ac82092822c4261851547d07510d2a74ae M	src/test/java/org/acmsl/commons/regexpplugin/jdk14regexp/CompilerJDKAdapterTest.java
+:100644 000000 24358c7de4327f081967b358a87aa7c0f690fd5b 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jdk14regexp/HelperJDKAdapterTest.java
+:100644 000000 d2a9940f0406503231beea2938d4afc649d4bffc 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jdk14regexp/JDKRegexpEngineTest.java
+:100644 000000 3d7b42931158751fbcd60e9122d716f5566be14f 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jdk14regexp/Jdk14regexpSuite.java
+:100644 100644 a04e09b7301c6e3931e89fed2db560dc9cacdd5b 52bd65e81bc97af7a988698f12584b0d06751d9d M	src/test/java/org/acmsl/commons/regexpplugin/jdk14regexp/MatchResultJDKAdapterTest.java
+:100644 000000 e6473205e2bd122a5d0faf70f351f913fc9a1036 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jdk14regexp/MatcherJDKAdapterTest.java
+:100644 000000 7e7508d32bb3f2d2399d352a67043aedd1efe67d 0000000000000000000000000000000000000000 D	src/test/java/org/acmsl/commons/regexpplugin/jdk14regexp/PatternJDKAdapterTest.java

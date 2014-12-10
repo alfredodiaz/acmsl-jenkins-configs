@@ -1,0 +1,5 @@
+<hudson.plugins.dependencyanalyzer.result.BuildResult plugin="dependencyanalyzer@0.7">
+  <modulesResults>
+    <hudson.plugins.dependencyanalyzer.result.ModuleResult/>
+  </modulesResults>
+</hudson.plugins.dependencyanalyzer.result.BuildResult>

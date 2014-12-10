@@ -1,0 +1,65 @@
+Started by an SCM change
+Building in workspace /home/jenkins/workspace/acmsl-pom
+Wiping out workspace first.
+Cloning the remote Git repository
+Cloning repository https://github.com/rydnr/acmsl-pom.git
+ > git init /home/jenkins/workspace/acmsl-pom # timeout=10
+Fetching upstream changes from https://github.com/rydnr/acmsl-pom.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/rydnr/acmsl-pom.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url https://github.com/rydnr/acmsl-pom.git # timeout=10
+ > git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/rydnr/acmsl-pom.git # timeout=10
+Fetching upstream changes from https://github.com/rydnr/acmsl-pom.git
+ > git fetch --tags --progress https://github.com/rydnr/acmsl-pom.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision ec36bd6448ffe8375ef4317fcadbb2e49db3b5ba (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f ec36bd6448ffe8375ef4317fcadbb2e49db3b5ba
+First time build. Skipping changelog.
+Run condition [Current build status] enabling prebuild for step [BuilderChain]
+Parsing POMs
+[acmsl-pom] $ /bin/sh -xe /tmp/tomcat-tmp/hudson856601483127209285.sh
++ cd /home/jenkins/workspace/acmsl-pom
+++ grep -A 5 '<version.major>' pom.xml
+++ head -n 1
+++ cut -d '>' -f 2
+++ cut -d '<' -f 1
++ export MAJOR=3
++ MAJOR=3
+++ grep -A 5 '<version.minor>' pom.xml
+++ head -n 1
+++ cut -d '>' -f 2
+++ cut -d '<' -f 1
++ export MINOR=1
++ MINOR=1
++ '[' '!' -d target ']'
++ mkdir /home/jenkins/workspace/acmsl-pom/target
+++ printf '%04d\n' 1
++ export SEQ=0001
++ SEQ=0001
++ echo 3.1.0001
++ echo '** VERSION:3.1.0001'
+** VERSION:3.1.0001
++ git checkout -b acmsl-pom-3.1.0001
+Switched to a new branch 'acmsl-pom-3.1.0001'
+[description-setter] Description set: v24-pom: 3.1.0001' ()
+[acmsl-pom] $ /bin/sh -xe /tmp/tomcat-tmp/hudson3423932730199674001.sh
++ cd /home/jenkins/workspace/acmsl-pom
+++ cat /home/jenkins/workspace/acmsl-pom/target/.version
++ export NEW_VERSION=3.1.0001
++ NEW_VERSION=3.1.0001
++ sed -i 's <version.>\(.*\)</version.> <version.>3.1.0001</version.> g' pom.xml
++ /opt/apache-maven/bin/mvn versions:update-properties
+[ERROR] Could not create local repository at /opt/tomcat/.m2/repository -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/LocalRepositoryNotAccessibleException
+Build step 'Execute shell' marked build as failure
+ERROR: Failed to create /opt/tomcat/.m2
+[8mha:AAAAWB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P08vOT+vOD8nVc8DzHWtSE4tKMnMz/PLL0ldFVf2c+b/lb5MDAwVRQxSaBqcITRIIQMEMIIUFgAAckCEiWAAAAA=[0mBuild step 'Dependency analysis' marked build as failure
+Finished: FAILURE

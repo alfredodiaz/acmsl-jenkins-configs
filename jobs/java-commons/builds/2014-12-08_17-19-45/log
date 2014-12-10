@@ -1,0 +1,52 @@
+Started by user [8mha:AAAAnx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzeEgZh/dLi1CL9rNS87My8Yt3ElNzMPAB8L1FIyAAAAA==[0mjenkins-admin
+Building in workspace /home/jenkins/workspace/java-commons
+Wiping out workspace first.
+Cloning the remote Git repository
+Cloning repository https://github.com/rydnr/java-commons.git
+ > git init /home/jenkins/workspace/java-commons # timeout=10
+Fetching upstream changes from https://github.com/rydnr/java-commons.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/rydnr/java-commons.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url https://github.com/rydnr/java-commons.git # timeout=10
+ > git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/rydnr/java-commons.git # timeout=10
+Fetching upstream changes from https://github.com/rydnr/java-commons.git
+ > git fetch --tags --progress https://github.com/rydnr/java-commons.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 874ae19180bb59ad2361599083b2533f296efa6d (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 874ae19180bb59ad2361599083b2533f296efa6d
+ > git rev-list 874ae19180bb59ad2361599083b2533f296efa6d # timeout=10
+Run condition [Current build status] enabling prebuild for step [BuilderChain]
+Run condition [Current build status] enabling prebuild for step [BuilderChain]
+Parsing POMs
+Failed to transfer Could not find metadata org.acmsl:acmsl-pom:latest-SNAPSHOT/maven-metadata.xml in acmsl-libs-snapshots (http://maven.acm-sl.org/artifactory/libs-snapshot-local)
+Failed to transfer Could not find metadata org.acmsl:acmsl-pom:latest-SNAPSHOT/maven-metadata.xml in acmsl-ext-snapshots (http://maven.acm-sl.org/artifactory/ext-snapshot-local)
+Failed to transfer Could not find artifact org.acmsl:acmsl-pom:pom:latest-SNAPSHOT in acmsl-libs-snapshots (http://maven.acm-sl.org/artifactory/libs-snapshot-local)
+Failed to transfer Could not find artifact org.acmsl:acmsl-pom:pom:latest-SNAPSHOT in acmsl-ext-snapshots (http://maven.acm-sl.org/artifactory/ext-snapshot-local)
+ERROR: Failed to parse POMs
+[8mha:AAAAWB+LCAAAAAAAAP9b85aBtbiIQSmjNKU4P08vOT+vOD8nVc8DzHWtSE4tKMnMz/PLL0ldFVf2c+b/lb5MDAwVRQxSaBqcITRIIQMEMIIUFgAAckCEiWAAAAA=[0morg.apache.maven.project.ProjectBuildingException: Some problems were encountered while processing the POMs:
+[FATAL] Non-resolvable parent POM: Could not find artifact org.acmsl:acmsl-pom:pom:latest-SNAPSHOT in acmsl-libs-snapshots (http://maven.acm-sl.org/artifactory/libs-snapshot-local) and 'parent.relativePath' points at wrong local POM @ line 25, column 11
+
+	at org.apache.maven.project.DefaultProjectBuilder.build(DefaultProjectBuilder.java:364)
+	at hudson.maven.MavenEmbedder.buildProjects(MavenEmbedder.java:361)
+	at hudson.maven.MavenEmbedder.readProjects(MavenEmbedder.java:331)
+	at hudson.maven.MavenModuleSetBuild$PomParser.invoke(MavenModuleSetBuild.java:1300)
+	at hudson.maven.MavenModuleSetBuild$PomParser.invoke(MavenModuleSetBuild.java:1097)
+	at hudson.FilePath.act(FilePath.java:981)
+	at hudson.FilePath.act(FilePath.java:959)
+	at hudson.maven.MavenModuleSetBuild$MavenModuleSetBuildExecution.parsePoms(MavenModuleSetBuild.java:959)
+	at hudson.maven.MavenModuleSetBuild$MavenModuleSetBuildExecution.doRun(MavenModuleSetBuild.java:679)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:533)
+	at hudson.model.Run.execute(Run.java:1759)
+	at hudson.maven.MavenModuleSetBuild.run(MavenModuleSetBuild.java:531)
+	at hudson.model.ResourceController.execute(ResourceController.java:89)
+	at hudson.model.Executor.run(Executor.java:240)
+Waiting for the completion of [8mha:AAAAlh+LCAAAAAAAAP9b85aBtbiIQSajNKU4P08vOT+vOD8nVc+jsiC1KCczL9svvyTVzHb1RttJBUeZGJg8GdhyUvPSSzJ8GJhLi3JKGIR8shLLEvVzEvPS9YNLijLz0q0rihik0IxzhtAgwxgggJGJgaGiAMjgL2EQ1c/KT9JPTy3RzUst1y1LLSrOzM/TBwB6qgW1mgAAAA==[0mget-new-version
+[8mha:AAAAmB+LCAAAAAAAAP9b85aBtbiIQSajNKU4P08vOT+vOD8nVc+jsiC1KCczL9svvyTVzHb1RttJBUeZGJg8GdhyUvPSSzJ8GJhLi3JKGIR8shLLEvVzEvPS9YNLijLz0q0rihik0IxzhtAgwxgggJGJgaGiAMgQKmEQ18/KT9JPTy3RzUst1y1LLSrOzM/TN9YHAM3lsLecAAAA[0mget-new-version #3 completed. Result was FAILURE
+Build step 'Trigger/call builds on other projects' marked build as failure
+Build step 'Dependency analysis' marked build as failure
+Recording fingerprints
+Sending e-mails to: jenkins@acm-sl.org
+Finished: FAILURE

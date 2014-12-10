@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<com.cloudbees.dockerpublish.DockerBuilder_-DescriptorImpl plugin="docker-build-publish@0.9">
+  <userName></userName>
+  <password></password>
+  <email></email>
+  <registryUrl></registryUrl>
+</com.cloudbees.dockerpublish.DockerBuilder_-DescriptorImpl>

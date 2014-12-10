@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<maven2-moduleset plugin="maven-plugin@2.6">
+<maven2-moduleset plugin="maven-plugin@2.7.1">
   <actions/>
   <description>Builds and releases a new version of acmsl-pom.&#xd;
 </description>
@@ -26,15 +26,6 @@
       <useJobPriority>true</useJobPriority>
       <priority>1</priority>
     </jenkins.advancedqueue.AdvancedQueueSorterJobProperty>
-    <hudson.model.ParametersDefinitionProperty>
-      <parameterDefinitions>
-        <hudson.model.StringParameterDefinition>
-          <name>trigger</name>
-          <description>The job being built.</description>
-          <defaultValue></defaultValue>
-        </hudson.model.StringParameterDefinition>
-      </parameterDefinitions>
-    </hudson.model.ParametersDefinitionProperty>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.3">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
@@ -90,9 +81,17 @@
   <mavenValidationLevel>-1</mavenValidationLevel>
   <runHeadless>false</runHeadless>
   <disableTriggerDownstreamProjects>false</disableTriggerDownstreamProjects>
+  <blockTriggerWhenBuilding>true</blockTriggerWhenBuilding>
   <settings class="jenkins.mvn.DefaultSettingsProvider"/>
   <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
-  <reporters/>
+  <reporters>
+    <hudson.maven.reporters.MavenMailer>
+      <recipients>jenkins@acm-sl.org</recipients>
+      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>false</sendToIndividuals>
+      <perModuleEmail>true</perModuleEmail>
+    </hudson.maven.reporters.MavenMailer>
+  </reporters>
   <publishers>
     <hudson.plugins.dependencyanalyzer.DependencyAnalyzerPublisher plugin="dependencyanalyzer@0.7"/>
   </publishers>
@@ -100,72 +99,7 @@
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
   </buildWrappers>
   <prebuilders/>
-  <postbuilders>
-    <hudson.tasks.Shell>
-      <command>cd &quot;${WORKSPACE}&quot;;
-export MAJOR=$(grep -A 5 &apos;&lt;version.major&gt;&apos; pom.xml | head -n 1 | cut -d &apos;&gt;&apos; -f 2 | cut -d &apos;&lt;&apos; -f 1)
-export MINOR=$(grep -A 5 &apos;&lt;version.minor&gt;&apos; pom.xml | head -n 1 | cut -d &apos;&gt;&apos; -f 2 | cut -d &apos;&lt;&apos; -f 1)
-if [ ! -d target ]; then mkdir &quot;${WORKSPACE}&quot;/target; fi
-export SEQ=&quot;$(printf &quot;%04d\n&quot; ${BUILD_NUMBER})&quot;;
-echo &quot;${MAJOR}.${MINOR}.${SEQ}&quot; &gt; &quot;${WORKSPACE}&quot;/target/.version
-echo &quot;** VERSION:${MAJOR}.${MINOR}.${SEQ}&quot;
-git checkout -b ${JOB_NAME}-${MAJOR}.${MINOR}.${SEQ}</command>
-    </hudson.tasks.Shell>
-    <hudson.plugins.descriptionsetter.DescriptionSetterBuilder plugin="description-setter@1.9">
-      <regexp>\*\* VERSION:(.*)</regexp>
-      <description>v24-pom: \1 (${trigger})</description>
-    </hudson.plugins.descriptionsetter.DescriptionSetterBuilder>
-    <hudson.tasks.Shell>
-      <command>cd &quot;${WORKSPACE}&quot;;
-export NEW_VERSION=&quot;$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
-sed -i &quot;s &lt;version.${trigger}&gt;\(.*\)&lt;/version.${trigger}&gt; &lt;version.${trigger}&gt;${NEW_VERSION}&lt;/version.${trigger}&gt; g&quot; pom.xml
-/opt/apache-maven/bin/mvn versions:update-properties;</command>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>cd &quot;${WORKSPACE}&quot;;
-echo &quot;TAG_NAME=$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
-/opt/apache-maven/bin/mvn -Djava.io.tmpdir=/jenkins/jenkins-temp-folder -o versions:set -DnewVersion=$(cat &quot;${WORKSPACE}&quot;/target/.version)</command>
-    </hudson.tasks.Shell>
-    <org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder plugin="conditional-buildstep@1.3.3">
-      <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail" plugin="run-condition@1.0"/>
-      <runCondition class="org.jenkins_ci.plugins.run_condition.core.StatusCondition" plugin="run-condition@1.0">
-        <worstResult>
-          <name>SUCCESS</name>
-          <ordinal>0</ordinal>
-          <color>BLUE</color>
-          <completeBuild>true</completeBuild>
-        </worstResult>
-        <bestResult>
-          <name>SUCCESS</name>
-          <ordinal>0</ordinal>
-          <color>BLUE</color>
-          <completeBuild>true</completeBuild>
-        </bestResult>
-      </runCondition>
-      <conditionalbuilders>
-        <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-export ARTIFACT=&quot;acmsl-pom&quot;;
-git add pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat target/.version) for ${trigger}&quot; &amp;&amp; git tag -a &quot;${ARTIFACT}-$(cat target/.version)&quot; -m&quot;Releasing $(cat target/.version)&quot; &amp;&amp; git push origin --tags</command>
-        </hudson.tasks.Shell>
-        <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-export GROUP=&quot;acmsl-pom&quot;;
-export ARTIFACT=&quot;acmsl-pom&quot;;
-export NEW_VERSION=&quot;$(cat ${WORKSPACE}/target/.version)&quot;;
-export REPO=&quot;https://github.com/rydnr/${ARTIFACT}.git&quot;
-/usr/local/bin/prepare-release.sh ${GROUP} ${ARTIFACT} ${NEW_VERSION} ${REPO}</command>
-        </hudson.tasks.Shell>
-        <hudson.tasks.Maven>
-          <targets>-Prelease release:perform</targets>
-          <mavenName>(Default)</mavenName>
-          <usePrivateRepository>false</usePrivateRepository>
-          <settings class="jenkins.mvn.DefaultSettingsProvider"/>
-          <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
-        </hudson.tasks.Maven>
-      </conditionalbuilders>
-    </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
-  </postbuilders>
+  <postbuilders/>
   <runPostStepsIfResult>
     <name>SUCCESS</name>
     <ordinal>0</ordinal>

@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<org.cloudsmith.jenkins.stackhammer.validation.ValidationDescriptor plugin="stackhammer@1.0.6">
+  <serviceURL>https://stackservice.cloudsmith.com/service/api</serviceURL>
+  <pollInterval>15</pollInterval>
+</org.cloudsmith.jenkins.stackhammer.validation.ValidationDescriptor>
