@@ -1,7 +1,0 @@
-Started on Dec 9, 2014 7:53:00 PM
-Using strategy: Default
-[poll] Last Built Revision: Revision fd9ab445878720487dd9be0e801509963cbd012d (refs/remotes/origin/master)
- > git ls-remote -h https://github.com/rydnr/java-commons.git master # timeout=10
-[poll] Latest remote head revision is: fd9ab445878720487dd9be0e801509963cbd012d
-Done. Took 13 sec
-No changes

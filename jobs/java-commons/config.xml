@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <maven2-moduleset plugin="maven-plugin@2.8">
   <actions/>
-  <description>Builds ACM S.L. Java Commons.</description>
+  <description>Builds and releases a new version of &lt;b&gt;ACM S.L. Java Commons&lt;/b&gt; to &lt;a href=&quot;http://maven.acm-sl.org&quot;&gt;maven.acm-sl.org&lt;/a&gt;.&lt;br/&gt;&#xd;
+&#xd;
+Build-Time Trend:&lt;br/&gt;&#xd;
+&lt;img usemap=&quot;#map0&quot; src=&quot;buildTimeGraph/png&quot; lazymap=&quot;buildTimeGraph/map&quot; alt=&quot;[Build time graph]&quot; height=&quot;400&quot; width=&quot;500&quot;&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.plugins.maveninfo.config.MavenInfoJobConfig plugin="maven-info@0.2.0">
@@ -12,9 +15,25 @@
       <assignDescription>false</assignDescription>
       <descriptionTemplate></descriptionTemplate>
     </jenkins.plugins.maveninfo.config.MavenInfoJobConfig>
+    <com.cloudbees.plugins.deployer.DeployNowJobProperty plugin="deployer-framework@1.0">
+      <oneClickDeploy>false</oneClickDeploy>
+      <hosts/>
+    </com.cloudbees.plugins.deployer.DeployNowJobProperty>
+    <com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty plugin="build-failure-analyzer@1.11.0">
+      <doNotScan>false</doNotScan>
+    </com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty>
+    <com.nirima.jenkins.plugins.docker.DockerJobProperty plugin="docker-plugin@0.8">
+      <tagOnCompletion>false</tagOnCompletion>
+      <additionalTag></additionalTag>
+      <pushOnSuccess>false</pushOnSuccess>
+      <cleanImages>true</cleanImages>
+    </com.nirima.jenkins.plugins.docker.DockerJobProperty>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.10">
-      <projectUrl>http://github.com/rydnr/java-commons.git/</projectUrl>
+      <projectUrl>https://github.com/rydnr/java-commons.git/</projectUrl>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <org.jenkins.ci.plugins.html5__notifier.JobPropertyImpl plugin="html5-notifier-plugin@1.3">
+      <skip>false</skip>
+    </org.jenkins.ci.plugins.html5__notifier.JobPropertyImpl>
     <jenkins.advancedqueue.AdvancedQueueSorterJobProperty plugin="PrioritySorter@2.9">
       <useJobPriority>false</useJobPriority>
       <priority>-1</priority>
@@ -22,10 +41,8 @@
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
-      <categories/>
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
-      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.1">
@@ -33,6 +50,7 @@
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
         <url>https://github.com/rydnr/java-commons.git</url>
+        <credentialsId>d26f616d-b0e9-4ef1-9e78-45d274cc1aa6</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -47,6 +65,7 @@
     <submoduleCfg class="list"/>
     <extensions>
       <hudson.plugins.git.extensions.impl.WipeWorkspace/>
+      <hudson.plugins.git.extensions.impl.PerBuildTag/>
     </extensions>
   </scm>
   <canRoam>true</canRoam>
@@ -92,9 +111,34 @@
     <hudson.tasks.Fingerprinter>
       <targets>target/*.jar</targets>
     </hudson.tasks.Fingerprinter>
+    <hudson.plugins.git.GitPublisher plugin="git@2.3.1">
+      <configVersion>2</configVersion>
+      <pushMerge>false</pushMerge>
+      <pushOnlyIfSuccess>true</pushOnlyIfSuccess>
+      <forcePush>false</forcePush>
+      <tagsToPush>
+        <hudson.plugins.git.GitPublisher_-TagToPush>
+          <targetRepoName>master</targetRepoName>
+          <tagName>${NEW_GIT_TAG}</tagName>
+          <tagMessage>Releasing ${NEW_GIT_TAG}</tagMessage>
+          <createTag>true</createTag>
+          <updateTag>false</updateTag>
+        </hudson.plugins.git.GitPublisher_-TagToPush>
+      </tagsToPush>
+    </hudson.plugins.git.GitPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+    <!--com.cloudbees.jenkins.plugins.sshagent.SSHAgentBuildWrapper plugin="ssh-agent@1.5">
+      <credentialIds>
+        <string>d26f616d-b0e9-4ef1-9e78-45d274cc1aa6</string>
+      </credentialIds>
+      <ignoreMissing>false</ignoreMissing>
+    </com.cloudbees.jenkins.plugins.sshagent.SSHAgentBuildWrapper-->
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
   </buildWrappers>
   <prebuilders/>
   <postbuilders>
@@ -170,7 +214,9 @@ echo &quot;TAG_NAME=$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
         <hudson.tasks.Shell>
           <command>cd &quot;${WORKSPACE}&quot;;
 export ARTIFACT=&quot;java-commons&quot;;
-git add pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; &amp;&amp; git tag -a &quot;${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; -m&quot;Releasing $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; &amp;&amp; git push origin --tags</command>
+git add pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;
+# &amp;&amp; git tag -a &quot;${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; -m&quot;Releasing $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; &amp;&amp; git push origin --tags
+export NEW_GIT_TAG=&quot;${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;</command>
         </hudson.tasks.Shell>
         <hudson.tasks.Shell>
           <command>cd &quot;${WORKSPACE}&quot;;

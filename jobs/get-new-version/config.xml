@@ -12,9 +12,25 @@
 &lt;/ol&gt;&#xd;
 &#xd;
 Build-Time Trend:&lt;br/&gt;&#xd;
-&lt;img usemap=&quot;#map0&quot; src=&quot;buildTimeGraph/png&quot; lazymap=&quot;buildTimeGraph/map&quot; alt=&quot;[Build time graph]&quot; height=&quot;400&quot; width=&quot;500&quot;&gt;</description>
+&lt;img usemap=&quot;#map0&quot; src=&quot;buildTimeGraph/png&quot; lazymap=&quot;buildTimeGraph/map&quot; alt=&quot;[Build time graph]&quot; height=&quot;400&quot; width=&quot;500&quot;/&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <com.cloudbees.plugins.deployer.DeployNowJobProperty plugin="deployer-framework@1.0">
+      <oneClickDeploy>false</oneClickDeploy>
+      <hosts/>
+    </com.cloudbees.plugins.deployer.DeployNowJobProperty>
+    <com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty plugin="build-failure-analyzer@1.11.0">
+      <doNotScan>false</doNotScan>
+    </com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty>
+    <com.nirima.jenkins.plugins.docker.DockerJobProperty plugin="docker-plugin@0.8">
+      <tagOnCompletion>false</tagOnCompletion>
+      <additionalTag></additionalTag>
+      <pushOnSuccess>false</pushOnSuccess>
+      <cleanImages>true</cleanImages>
+    </com.nirima.jenkins.plugins.docker.DockerJobProperty>
+    <org.jenkins.ci.plugins.html5__notifier.JobPropertyImpl plugin="html5-notifier-plugin@1.3">
+      <skip>false</skip>
+    </org.jenkins.ci.plugins.html5__notifier.JobPropertyImpl>
     <jenkins.advancedqueue.AdvancedQueueSorterJobProperty plugin="PrioritySorter@2.9">
       <useJobPriority>true</useJobPriority>
       <priority>1</priority>
@@ -39,7 +55,8 @@ Build-Time Trend:&lt;br/&gt;&#xd;
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>http://github.com/rydnr/acmsl-pom.git</url>
+        <url>https://github.com/rydnr/acmsl-pom.git</url>
+        <credentialsId>d26f616d-b0e9-4ef1-9e78-45d274cc1aa6</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -49,7 +66,7 @@ Build-Time Trend:&lt;br/&gt;&#xd;
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
     <browser class="hudson.plugins.git.browser.GithubWeb">
-      <url>http://github.com/rydnr/acmsl-pom.git</url>
+      <url>https://github.com/rydnr/acmsl-pom.git</url>
     </browser>
     <submoduleCfg class="list"/>
     <extensions>
@@ -93,7 +110,7 @@ if [ ! -d target ]; then mkdir &quot;${WORKSPACE}&quot;/target; fi;
 export SEQ=&quot;$(printf &quot;%04d\n&quot; ${BUILD_NUMBER})&quot;;
 echo &quot;${MAJOR}.${MINOR}.${SEQ}&quot; &gt; &quot;${WORKSPACE}&quot;/target/.version;
 echo &quot;** VERSION:${MAJOR}.${MINOR}.${SEQ}&quot;;
-git checkout -b v24-pom-${MAJOR}.${MINOR}.${SEQ};</command>
+git checkout -b acmsl-pom-${MAJOR}.${MINOR}.${SEQ};</command>
         </hudson.tasks.Shell>
         <hudson.plugins.descriptionsetter.DescriptionSetterBuilder plugin="description-setter@1.9">
           <regexp>\*\* VERSION:(.*)&apos;</regexp>
@@ -108,12 +125,15 @@ sed -i &quot;s &lt;version.${trigger}&gt;\(.*\)&lt;/version.${trigger}&gt; &lt;v
         <hudson.tasks.Shell>
           <command>cd &quot;${WORKSPACE}&quot;;
 echo &quot;TAG_NAME=$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
-/opt/apache-maven/bin/mvn -o versions:set -DnewVersion=$(cat &quot;${WORKSPACE}&quot;/target/.version);</command>
+/opt/apache-maven/bin/mvn versions:set -DnewVersion=$(cat &quot;${WORKSPACE}&quot;/target/.version);</command>
         </hudson.tasks.Shell>
         <hudson.tasks.Shell>
           <command>cd &quot;${WORKSPACE}&quot;;
 export ARTIFACT=&quot;acmsl-pom&quot;;
-git add pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat target/.version) for ${trigger}&quot; &amp;&amp; git tag -a &quot;${ARTIFACT}-$(cat target/.version)&quot; -m&quot;Releasing $(cat target/.version)&quot; &amp;&amp; git push origin --tags;</command>
+git remote set-url origin https://github.com/rydnr/${ARTIFACT}.git &amp;&amp; \
+git add pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat target/.version) for ${trigger}&quot;;
+export NEW_GIT_TAG=&quot;${ARTIFACT}-$(cat target/.version)&quot;;
+# git tag -a &quot;${ARTIFACT}-$(cat target/.version)&quot; -m&quot;Releasing $(cat target/.version)&quot; &amp;&amp; git push origin --tags;</command>
         </hudson.tasks.Shell>
         <hudson.tasks.Shell>
           <command>cd &quot;${WORKSPACE}&quot;;
@@ -131,6 +151,21 @@ export REPO=&quot;http://github.com/rydnr/${ARTIFACT}.git&quot;;
     </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
   </builders>
   <publishers>
+    <hudson.plugins.git.GitPublisher plugin="git@2.3.1">
+      <configVersion>2</configVersion>
+      <pushMerge>false</pushMerge>
+      <pushOnlyIfSuccess>true</pushOnlyIfSuccess>
+      <forcePush>false</forcePush>
+      <tagsToPush>
+        <hudson.plugins.git.GitPublisher_-TagToPush>
+          <targetRepoName>origin</targetRepoName>
+          <tagName>${NEW_GIT_TAG}</tagName>
+          <tagMessage>Releasing ${NEW_GIT_TAG} triggered by ${trigger}</tagMessage>
+          <createTag>true</createTag>
+          <updateTag>false</updateTag>
+        </hudson.plugins.git.GitPublisher_-TagToPush>
+      </tagsToPush>
+    </hudson.plugins.git.GitPublisher>
     <hudson.tasks.Mailer plugin="mailer@1.12">
       <recipients>jenkins@acm-sl.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
@@ -139,5 +174,6 @@ export REPO=&quot;http://github.com/rydnr/${ARTIFACT}.git&quot;;
   </publishers>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
   </buildWrappers>
 </project>
