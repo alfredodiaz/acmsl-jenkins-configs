@@ -55,8 +55,7 @@ Build-Time Trend:&lt;br/&gt;&#xd;
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/rydnr/acmsl-pom.git</url>
-        <credentialsId>d26f616d-b0e9-4ef1-9e78-45d274cc1aa6</credentialsId>
+        <url>github-with-jenkins-ssh-key:rydnr/acmsl-pom.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -130,10 +129,9 @@ echo &quot;TAG_NAME=$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
         <hudson.tasks.Shell>
           <command>cd &quot;${WORKSPACE}&quot;;
 export ARTIFACT=&quot;acmsl-pom&quot;;
-git remote set-url origin https://github.com/rydnr/${ARTIFACT}.git &amp;&amp; \
 git add pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat target/.version) for ${trigger}&quot;;
 export NEW_GIT_TAG=&quot;${ARTIFACT}-$(cat target/.version)&quot;;
-# git tag -a &quot;${ARTIFACT}-$(cat target/.version)&quot; -m&quot;Releasing $(cat target/.version)&quot; &amp;&amp; git push origin --tags;</command>
+git tag -a &quot;${ARTIFACT}-$(cat target/.version)&quot; -m&quot;Releasing $(cat target/.version)&quot; &amp;&amp; git push origin --tags;</command>
         </hudson.tasks.Shell>
         <hudson.tasks.Shell>
           <command>cd &quot;${WORKSPACE}&quot;;
@@ -151,21 +149,6 @@ export REPO=&quot;http://github.com/rydnr/${ARTIFACT}.git&quot;;
     </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
   </builders>
   <publishers>
-    <hudson.plugins.git.GitPublisher plugin="git@2.3.1">
-      <configVersion>2</configVersion>
-      <pushMerge>false</pushMerge>
-      <pushOnlyIfSuccess>true</pushOnlyIfSuccess>
-      <forcePush>false</forcePush>
-      <tagsToPush>
-        <hudson.plugins.git.GitPublisher_-TagToPush>
-          <targetRepoName>origin</targetRepoName>
-          <tagName>${NEW_GIT_TAG}</tagName>
-          <tagMessage>Releasing ${NEW_GIT_TAG} triggered by ${trigger}</tagMessage>
-          <createTag>true</createTag>
-          <updateTag>false</updateTag>
-        </hudson.plugins.git.GitPublisher_-TagToPush>
-      </tagsToPush>
-    </hudson.plugins.git.GitPublisher>
     <hudson.tasks.Mailer plugin="mailer@1.12">
       <recipients>jenkins@acm-sl.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>

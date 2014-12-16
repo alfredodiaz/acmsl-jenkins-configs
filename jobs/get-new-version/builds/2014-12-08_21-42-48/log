@@ -1,121 +1,0 @@
-Started by upstream project "[8mha:AAAAmh+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAweoBn6WflJ+iBzdJPzc3OBavUBaFAW/ccAAAA=[0mjava-commons" build number [8mha:AAAAnR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAymEgYR/az8JH2QObrJ+bm5QLX6hkYAqGIRHckAAAA=[0m12
-originally caused by:
- Started by user [8mha:AAAAnx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzeEgZh/dLi1CL9rNS87My8Yt3ElNzMPAB8L1FIyAAAAA==[0mjenkins-admin
-Building in workspace /home/jenkins/workspace/get-new-version
-Wiping out workspace first.
-Cloning the remote Git repository
-Cloning repository http://github.com/rydnr/acmsl-pom.git
- > git init /home/jenkins/workspace/get-new-version # timeout=10
-Fetching upstream changes from http://github.com/rydnr/acmsl-pom.git
- > git --version # timeout=10
- > git fetch --tags --progress http://github.com/rydnr/acmsl-pom.git +refs/heads/*:refs/remotes/origin/*
- > git config remote.origin.url http://github.com/rydnr/acmsl-pom.git # timeout=10
- > git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git config remote.origin.url http://github.com/rydnr/acmsl-pom.git # timeout=10
-Fetching upstream changes from http://github.com/rydnr/acmsl-pom.git
- > git fetch --tags --progress http://github.com/rydnr/acmsl-pom.git +refs/heads/*:refs/remotes/origin/*
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision ec36bd6448ffe8375ef4317fcadbb2e49db3b5ba (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f ec36bd6448ffe8375ef4317fcadbb2e49db3b5ba
- > git rev-list ec36bd6448ffe8375ef4317fcadbb2e49db3b5ba # timeout=10
-Run condition [Current build status] enabling prebuild for step [BuilderChain]
-[get-new-version] $ /bin/sh -xe /tmp/tomcat-tmp/hudson6652551373759754695.sh
-+ cd /home/jenkins/workspace/get-new-version
-+ /opt/apache-maven/bin/mvn clean deploy
-[INFO] Scanning for projects...
-[INFO]                                                                         
-[INFO] ------------------------------------------------------------------------
-[INFO] Building ACM S.L. POM latest-SNAPSHOT
-[INFO] ------------------------------------------------------------------------
-[INFO] 
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ acmsl-pom ---
-[INFO] 
-[INFO] --- maven-install-plugin:2.5.1:install (default-install) @ acmsl-pom ---
-[INFO] Installing /home/jenkins/workspace/get-new-version/pom.xml to /opt/tomcat/.m2/repository/org/acmsl/acmsl-pom/latest-SNAPSHOT/acmsl-pom-latest-SNAPSHOT.pom
-[INFO] 
-[INFO] --- maven-deploy-plugin:2.8.1:deploy (default-deploy) @ acmsl-pom ---
-Downloading: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/latest-SNAPSHOT/maven-metadata.xml
-310/310 B               Downloaded: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/latest-SNAPSHOT/maven-metadata.xml (310 B at 0.1 KB/sec)
-Uploading: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/latest-SNAPSHOT/acmsl-pom-latest-20141208.214340-2.pom
-2/23 KB     4/23 KB   6/23 KB   8/23 KB   10/23 KB   12/23 KB   14/23 KB   16/23 KB   18/23 KB   20/23 KB   22/23 KB   23/23 KB              Uploaded: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/latest-SNAPSHOT/acmsl-pom-latest-20141208.214340-2.pom (23 KB at 24.3 KB/sec)
-Downloading: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/maven-metadata.xml
-353/353 B               Downloaded: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/maven-metadata.xml (353 B at 1.6 KB/sec)
-Uploading: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/latest-SNAPSHOT/maven-metadata.xml
-597/597 B               Uploaded: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/latest-SNAPSHOT/maven-metadata.xml (597 B at 1.8 KB/sec)
-Uploading: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/maven-metadata.xml
-316/316 B               Uploaded: http://maven.acm-sl.org/libs-snapshots-local/org/acmsl/acmsl-pom/maven-metadata.xml (316 B at 0.6 KB/sec)
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 8.653 s
-[INFO] Finished at: 2014-12-08T21:43:42+00:00
-[INFO] Final Memory: 9M/208M
-[INFO] ------------------------------------------------------------------------
-[Current build status] check if current [SUCCESS] is worse or equals then [SUCCESS] and better or equals then [SUCCESS]
-Run condition [Current build status] enabling perform for step [BuilderChain]
-[get-new-version] $ /bin/sh -xe /tmp/tomcat-tmp/hudson7095468734579709584.sh
-+ cd /home/jenkins/workspace/get-new-version
-++ grep -A 5 '<version.major>' pom.xml
-++ head -n 1
-++ cut -d '<' -f 1
-++ cut -d '>' -f 2
-+ export MAJOR=3
-+ MAJOR=3
-++ grep -A 5 '<version.minor>' pom.xml
-++ head -n 1
-++ cut -d '>' -f 2
-++ cut -d '<' -f 1
-+ export MINOR=1
-+ MINOR=1
-+ '[' '!' -d target ']'
-+ mkdir /home/jenkins/workspace/get-new-version/target
-++ printf '%04d\n' 5
-+ export SEQ=0005
-+ SEQ=0005
-+ echo 3.1.0005
-+ echo '** VERSION:3.1.0005'
-** VERSION:3.1.0005
-+ git checkout -b v24-pom-3.1.0005
-Switched to a new branch 'v24-pom-3.1.0005'
-[description-setter] Description set: java-commons-3.1.0005
-[get-new-version] $ /bin/sh -xe /tmp/tomcat-tmp/hudson4677413864074387557.sh
-+ cd /home/jenkins/workspace/get-new-version
-++ cat /home/jenkins/workspace/get-new-version/target/.version
-+ export NEW_VERSION=3.1.0005
-+ NEW_VERSION=3.1.0005
-+ sed -i 's <version.java-commons>\(.*\)</version.java-commons> <version.java-commons>3.1.0005</version.java-commons> g' pom.xml
-+ /opt/apache-maven/bin/mvn -o versions:update-properties
-[INFO] Scanning for projects...
-[WARNING] The POM for org.acmsl.queryj:queryj-template-packaging-maven-plugin:jar:latest-SNAPSHOT is missing, no dependency information available
-[WARNING] Failed to retrieve plugin descriptor for org.acmsl.queryj:queryj-template-packaging-maven-plugin:latest-SNAPSHOT: Plugin org.acmsl.queryj:queryj-template-packaging-maven-plugin:latest-SNAPSHOT or one of its dependencies could not be resolved: Cannot access artifactory (http://maven.acm-sl.org/everything) in offline mode and the artifact org.acmsl.queryj:queryj-template-packaging-maven-plugin:jar:latest-SNAPSHOT has not been downloaded from it before.
-[WARNING] Failed to retrieve plugin descriptor for org.apache.maven.plugins:maven-plugin-plugin:3.3: Plugin org.apache.maven.plugins:maven-plugin-plugin:3.3 or one of its dependencies could not be resolved: Failed to read artifact descriptor for org.apache.maven.plugins:maven-plugin-plugin:jar:3.3
-[INFO]                                                                         
-[INFO] ------------------------------------------------------------------------
-[INFO] Building ACM S.L. POM latest-SNAPSHOT
-[INFO] ------------------------------------------------------------------------
-[WARNING] The POM for org.acmsl.queryj:queryj-template-packaging-maven-plugin:jar:latest-SNAPSHOT is missing, no dependency information available
-[WARNING] Failed to retrieve plugin descriptor for org.acmsl.queryj:queryj-template-packaging-maven-plugin:latest-SNAPSHOT: Plugin org.acmsl.queryj:queryj-template-packaging-maven-plugin:latest-SNAPSHOT or one of its dependencies could not be resolved: Cannot access artifactory (http://maven.acm-sl.org/everything) in offline mode and the artifact org.acmsl.queryj:queryj-template-packaging-maven-plugin:jar:latest-SNAPSHOT has not been downloaded from it before.
-[WARNING] Failed to retrieve plugin descriptor for org.apache.maven.plugins:maven-plugin-plugin:3.3: Plugin org.apache.maven.plugins:maven-plugin-plugin:3.3 or one of its dependencies could not be resolved: Failed to read artifact descriptor for org.apache.maven.plugins:maven-plugin-plugin:jar:3.3
-[INFO] 
-[INFO] --- versions-maven-plugin:2.1:update-properties (default-cli) @ acmsl-pom ---
-[WARNING] The POM for org.apache.maven.shared:maven-common-artifact-filters:jar:1.4 is missing, no dependency information available
-[WARNING] The POM for commons-lang:commons-lang:jar:2.4 is missing, no dependency information available
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD FAILURE
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 1.333 s
-[INFO] Finished at: 2014-12-08T21:43:45+00:00
-[INFO] Final Memory: 12M/208M
-[INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.codehaus.mojo:versions-maven-plugin:2.1:update-properties (default-cli) on project acmsl-pom: Execution default-cli of goal org.codehaus.mojo:versions-maven-plugin:2.1:update-properties failed: Plugin org.codehaus.mojo:versions-maven-plugin:2.1 or one of its dependencies could not be resolved: The following artifacts could not be resolved: backport-util-concurrent:backport-util-concurrent:jar:3.1, org.slf4j:slf4j-jdk14:jar:1.5.6, org.slf4j:slf4j-api:jar:1.5.6, org.slf4j:jcl-over-slf4j:jar:1.5.6, commons-cli:commons-cli:jar:1.2, org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3, org.sonatype.plexus:plexus-cipher:jar:1.4, org.codehaus.plexus:plexus-interpolation:jar:1.11, org.apache.maven.reporting:maven-reporting-api:jar:2.2.1, org.apache.maven.doxia:doxia-logging-api:jar:1.1, org.apache.maven.reporting:maven-reporting-impl:jar:2.0.4.1, commons-validator:commons-validator:jar:1.2.0, commons-beanutils:commons-beanutils:jar:1.7.0, commons-digester:commons-digester:jar:1.6, commons-logging:commons-logging:jar:1.0.4, xml-apis:xml-apis:jar:1.0.b2, org.apache.maven.shared:maven-common-artifact-filters:jar:1.4, org.apache.maven.wagon:wagon-file:jar:1.0-beta-6, org.apache.maven.doxia:doxia-core:jar:1.1, xerces:xercesImpl:jar:2.8.1, org.apache.maven.doxia:doxia-sink-api:jar:1.1, org.apache.maven.doxia:doxia-site-renderer:jar:1.1, org.codehaus.plexus:plexus-velocity:jar:1.1.7, org.apache.velocity:velocity:jar:1.5, org.apache.maven.doxia:doxia-decoration-model:jar:1.1, commons-collections:commons-collections:jar:3.2, org.apache.maven.doxia:doxia-module-xhtml:jar:1.1, org.apache.maven.doxia:doxia-module-fml:jar:1.1, org.codehaus.plexus:plexus-utils:jar:1.5.15, plexus:plexus-utils:jar:1.0.2, org.codehaus.plexus:plexus-i18n:jar:1.0-beta-7, org.codehaus.woodstox:wstx-asl:jar:3.2.7, stax:stax-api:jar:1.0.1, commons-lang:commons-lang:jar:2.4: Cannot access artifactory (http://maven.acm-sl.org/everything) in offline mode and the artifact backport-util-concurrent:backport-util-concurrent:jar:3.1 has not been downloaded from it before. -> [Help 1]
-[ERROR] 
-[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
-[ERROR] Re-run Maven using the -X switch to enable full debug logging.
-[ERROR] 
-[ERROR] For more information about the errors and possible solutions, please read the following articles:
-[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginResolutionException
-Build step 'Conditional steps (multiple)' marked build as failure
-Sending e-mails to: jenkins@acm-sl.org
-Finished: FAILURE
