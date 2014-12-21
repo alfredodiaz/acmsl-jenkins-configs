@@ -35,6 +35,28 @@
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
     </hudson.model.AllView>
+    <hudson.model.RadiatorView plugin="radiatorviewplugin@1.22">
+      <owner class="hudson" reference="../../.."/>
+      <name>Panel</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <jobNames>
+        <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>dockerfile-maven-plugin</string>
+        <string>queryj</string>
+      </jobNames>
+      <jobFilters/>
+      <columns/>
+      <recurse>false</recurse>
+      <showStable>false</showStable>
+      <showStableDetail>false</showStableDetail>
+      <showBuildStability>false</showBuildStability>
+      <highVis>true</highVis>
+      <groupByPrefix>false</groupByPrefix>
+      <captionText>Panel</captionText>
+      <captionSize>36</captionSize>
+    </hudson.model.RadiatorView>
   </views>
   <primaryView>All</primaryView>
   <slaveAgentPort>0</slaveAgentPort>
