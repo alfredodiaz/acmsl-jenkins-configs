@@ -1,10 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <maven2-moduleset plugin="maven-plugin@2.8">
   <actions/>
-  <description>Builds and releases a new version of &lt;b&gt;QueryJ&lt;/b&gt; to &lt;a href=&quot;http://maven.acm-sl.org&quot;&gt;maven.acm-sl.org&lt;/a&gt;.&lt;br/&gt;&#xd;
+  <description>Builds and releases a new version of &lt;b&gt;A.C.M. S.L. Java Commons&lt;/b&gt; to &lt;a href=&quot;http://maven.acm-sl.org&quot;&gt;maven.acm-sl.org&lt;/a&gt;.&lt;br/&gt;&#xd;
 &#xd;
 Build-Time Trend:&lt;br/&gt;&#xd;
 &lt;img usemap=&quot;#map0&quot; src=&quot;buildTimeGraph/png&quot; lazymap=&quot;buildTimeGraph/map&quot; alt=&quot;[Build time graph]&quot; height=&quot;400&quot; width=&quot;500&quot;&gt;</description>
+  <logRotator class="org.jenkinsci.plugins.enhancedoldbuilddiscarder.EnhancedOldBuildDiscarder" plugin="enhanced-old-build-discarder@1.0">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>3</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+    <discardOnlyOnSuccess>false</discardOnlyOnSuccess>
+  </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.plugins.maveninfo.config.MavenInfoJobConfig plugin="maven-info@0.2.0">
@@ -15,6 +22,9 @@ Build-Time Trend:&lt;br/&gt;&#xd;
       <assignDescription>false</assignDescription>
       <descriptionTemplate></descriptionTemplate>
     </jenkins.plugins.maveninfo.config.MavenInfoJobConfig>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.14">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty plugin="build-failure-analyzer@1.11.0">
       <doNotScan>false</doNotScan>
     </com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty>
@@ -25,7 +35,7 @@ Build-Time Trend:&lt;br/&gt;&#xd;
       <cleanImages>true</cleanImages>
     </com.nirima.jenkins.plugins.docker.DockerJobProperty>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.10">
-      <projectUrl>http://github.com/rydnr/queryj.git/</projectUrl>
+      <projectUrl>https://github.com/rydnr/java-commons.git/</projectUrl>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <org.jenkins.ci.plugins.html5__notifier.JobPropertyImpl plugin="html5-notifier-plugin@1.3">
       <skip>false</skip>
@@ -46,7 +56,7 @@ Build-Time Trend:&lt;br/&gt;&#xd;
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>github-with-jenkins-ssh-key:rydnr/queryj.git</url>
+        <url>github-with-jenkins-ssh-key:rydnr/java-commons.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -56,11 +66,12 @@ Build-Time Trend:&lt;br/&gt;&#xd;
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
     <browser class="hudson.plugins.git.browser.GithubWeb">
-      <url>https://github.com/rydnr/queryj.git</url>
+      <url>https://github.com/rydnr/java-commons.git</url>
     </browser>
     <submoduleCfg class="list"/>
     <extensions>
       <hudson.plugins.git.extensions.impl.WipeWorkspace/>
+      <hudson.plugins.git.extensions.impl.PerBuildTag/>
     </extensions>
   </scm>
   <canRoam>true</canRoam>
@@ -68,6 +79,9 @@ Build-Time Trend:&lt;br/&gt;&#xd;
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.10">
+      <spec></spec>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
     <hudson.triggers.SCMTrigger>
       <spec>H/5 * * * *</spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
@@ -75,8 +89,8 @@ Build-Time Trend:&lt;br/&gt;&#xd;
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <rootModule>
-    <groupId>org.acmsl.queryj</groupId>
-    <artifactId>queryj</artifactId>
+    <groupId>org.acmsl</groupId>
+    <artifactId>java-commons</artifactId>
   </rootModule>
   <goals>clean deploy</goals>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
@@ -112,7 +126,7 @@ Build-Time Trend:&lt;br/&gt;&#xd;
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
-    <org.jenkinsci.plugins.testinprogress.TestInProgressBuildWrapper plugin="testInProgress@1.3"/>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
   </buildWrappers>
   <prebuilders/>
   <postbuilders>
@@ -121,7 +135,7 @@ Build-Time Trend:&lt;br/&gt;&#xd;
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
           <configs>
             <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
-              <properties>trigger=queryj</properties>
+              <properties>trigger=java-commons</properties>
             </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
           </configs>
           <projects>get-new-version</projects>
@@ -151,23 +165,23 @@ Build-Time Trend:&lt;br/&gt;&#xd;
         </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
       </configs>
     </hudson.plugins.parameterizedtrigger.TriggerBuilder>
+    <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+      <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970260380</buildStepId>
+      <buildStepArgs>
+        <string>java-commons</string>
+      </buildStepArgs>
+    </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
     <hudson.tasks.Shell>
-      <command>cd &quot;${WORKSPACE}&quot;;
-export ARTIFACT=&quot;queryj&quot;;
-if [ ! -d target ]; then mkdir target; fi;
-/opt/apache-maven/bin/mvn -o versions:update-parent | grep &quot;Updating parent from &quot; | tail -n 1 | cut -d&apos; &apos; -f 7 | awk -F&apos;.&apos; &apos;{printf(&quot;%s.%s.%04d\n&quot;, $1, $2, $3);}&apos; &gt; &quot;${WORKSPACE}&quot;/target/.version;
-echo &quot;** VERSION: $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
-git checkout -b ${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version);</command>
+      <command>echo &quot;** VERSION: $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
+</command>
     </hudson.tasks.Shell>
     <hudson.plugins.descriptionsetter.DescriptionSetterBuilder plugin="description-setter@1.9">
       <regexp>\*\* VERSION: (.*)&apos;</regexp>
-      <description>queryj \1</description>
+      <description>Java Commons \1</description>
     </hudson.plugins.descriptionsetter.DescriptionSetterBuilder>
-    <hudson.tasks.Shell>
-      <command>cd &quot;${WORKSPACE}&quot;;
-echo &quot;TAG_NAME=$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
-/opt/apache-maven/bin/mvn -o versions:set -DnewVersion=$(cat &quot;${WORKSPACE}&quot;/target/.version)</command>
-    </hudson.tasks.Shell>
+    <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+      <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970428534</buildStepId>
+    </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
     <org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder plugin="conditional-buildstep@1.3.3">
       <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail" plugin="run-condition@1.0"/>
       <runCondition class="org.jenkins_ci.plugins.run_condition.core.StatusCondition" plugin="run-condition@1.0">
@@ -185,21 +199,22 @@ echo &quot;TAG_NAME=$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
         </bestResult>
       </runCondition>
       <conditionalbuilders>
-        <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-export ARTIFACT=&quot;queryj&quot;;
-git add pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; &amp;&amp; git tag -a &quot;${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; -m&quot;Releasing $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; &amp;&amp; git push origin --tags</command>
-        </hudson.tasks.Shell>
-        <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-export GROUP=&quot;org.acmsl&quot;;
-export ARTIFACT=&quot;queryj&quot;;
-export NEW_VERSION=&quot;$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
-export REPO=&quot;github-with-jenkins-ssh-key:rydnr/${ARTIFACT}.git&quot;;
-/usr/local/bin/prepare-release.sh ${GROUP} ${ARTIFACT} ${NEW_VERSION} ${REPO};</command>
-        </hudson.tasks.Shell>
+        <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+          <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970530784</buildStepId>
+          <buildStepArgs>
+            <string>java-commons</string>
+          </buildStepArgs>
+        </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
+        <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+          <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970628924</buildStepId>
+          <buildStepArgs>
+            <string>org.acmsl</string>
+            <string>java-commons</string>
+            <string>github-with-jenkins-ssh-key\:rydnr/java-commons.git</string>
+          </buildStepArgs>
+        </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
         <hudson.tasks.Maven>
-          <targets>-Darguments=&quot;-Dmaven.test.skip=true&quot; -Dmaven.test.skip=true -Prelease release:perform</targets>
+          <targets>-Prelease release:perform</targets>
           <mavenName>Maven 3.2.3</mavenName>
           <usePrivateRepository>false</usePrivateRepository>
           <settings class="jenkins.mvn.DefaultSettingsProvider"/>
@@ -224,10 +239,12 @@ export REPO=&quot;github-with-jenkins-ssh-key:rydnr/${ARTIFACT}.git&quot;;
         </bestResult>
       </runCondition>
       <conditionalbuilders>
-        <hudson.tasks.Shell>
-          <command>export ARTIFACT=&quot;queryj&quot;;
-git branch -D ${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version);</command>
-        </hudson.tasks.Shell>
+        <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+          <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970913920</buildStepId>
+          <buildStepArgs>
+            <string>java-commons</string>
+          </buildStepArgs>
+        </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
       </conditionalbuilders>
     </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
   </postbuilders>

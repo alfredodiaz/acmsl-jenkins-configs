@@ -13,12 +13,12 @@
 &#xd;
 Build-Time Trend:&lt;br/&gt;&#xd;
 &lt;img usemap=&quot;#map0&quot; src=&quot;buildTimeGraph/png&quot; lazymap=&quot;buildTimeGraph/map&quot; alt=&quot;[Build time graph]&quot; height=&quot;400&quot; width=&quot;500&quot;/&gt;</description>
+  <displayName>New Version</displayName>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <com.cloudbees.plugins.deployer.DeployNowJobProperty plugin="deployer-framework@1.0">
-      <oneClickDeploy>false</oneClickDeploy>
-      <hosts/>
-    </com.cloudbees.plugins.deployer.DeployNowJobProperty>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.14">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty plugin="build-failure-analyzer@1.11.0">
       <doNotScan>false</doNotScan>
     </com.sonyericsson.jenkins.plugins.bfa.model.ScannerJobProperty>
@@ -50,6 +50,7 @@ Build-Time Trend:&lt;br/&gt;&#xd;
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+    <de.pellepelster.jenkins.walldisplay.WallDisplayJobProperty plugin="jenkinswalldisplay@0.6.27"/>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.1">
     <configVersion>2</configVersion>
