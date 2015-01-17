@@ -50,9 +50,8 @@ Build-Time Trend:&lt;br/&gt;&#xd;
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
-    <de.pellepelster.jenkins.walldisplay.WallDisplayJobProperty plugin="jenkinswalldisplay@0.6.27"/>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.1">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.2">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -102,62 +101,55 @@ Build-Time Trend:&lt;br/&gt;&#xd;
         </bestResult>
       </runCondition>
       <conditionalbuilders>
+        <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+          <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1419877655367</buildStepId>
+        </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
         <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-export MAJOR=$(grep -A 5 &apos;&lt;version.major&gt;&apos; pom.xml | head -n 1 | cut -d &apos;&gt;&apos; -f 2 | cut -d &apos;&lt;&apos; -f 1);
-export MINOR=$(grep -A 5 &apos;&lt;version.minor&gt;&apos; pom.xml | head -n 1 | cut -d &apos;&gt;&apos; -f 2 | cut -d &apos;&lt;&apos; -f 1);
-if [ ! -d target ]; then mkdir &quot;${WORKSPACE}&quot;/target; fi;
-export SEQ=&quot;$(printf &quot;%04d\n&quot; ${BUILD_NUMBER})&quot;;
-echo &quot;${MAJOR}.${MINOR}.${SEQ}&quot; &gt; &quot;${WORKSPACE}&quot;/target/.version;
-echo &quot;** VERSION:${MAJOR}.${MINOR}.${SEQ}&quot;;
-git checkout -b acmsl-pom-${MAJOR}.${MINOR}.${SEQ};</command>
+          <command>echo &quot;** VERSION:$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
+</command>
         </hudson.tasks.Shell>
         <hudson.plugins.descriptionsetter.DescriptionSetterBuilder plugin="description-setter@1.9">
           <regexp>\*\* VERSION:(.*)&apos;</regexp>
           <description>${trigger}-\1</description>
         </hudson.plugins.descriptionsetter.DescriptionSetterBuilder>
-        <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-export NEW_VERSION=&quot;$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
-sed -i &quot;s &lt;version.${trigger}&gt;\(.*\)&lt;/version.${trigger}&gt; &lt;version.${trigger}&gt;${NEW_VERSION}&lt;/version.${trigger}&gt; g&quot; pom.xml;
-/opt/apache-maven/bin/mvn versions:update-properties;</command>
-        </hudson.tasks.Shell>
-        <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-echo &quot;TAG_NAME=$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
-/opt/apache-maven/bin/mvn versions:set -DnewVersion=$(cat &quot;${WORKSPACE}&quot;/target/.version);</command>
-        </hudson.tasks.Shell>
-        <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-export ARTIFACT=&quot;acmsl-pom&quot;;
-git add pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat target/.version) for ${trigger}&quot;;
-export NEW_GIT_TAG=&quot;${ARTIFACT}-$(cat target/.version)&quot;;
-git tag -a &quot;${ARTIFACT}-$(cat target/.version)&quot; -m&quot;Releasing $(cat target/.version)&quot; &amp;&amp; git push origin --tags;</command>
-        </hudson.tasks.Shell>
-        <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-export GROUP=&quot;acmsl-pom&quot;;
-export ARTIFACT=&quot;acmsl-pom&quot;;
-export NEW_VERSION=&quot;$(cat ${WORKSPACE}/target/.version)&quot;;
-export REPO=&quot;http://github.com/rydnr/${ARTIFACT}.git&quot;;
-/usr/local/bin/prepare-release.sh ${GROUP} ${ARTIFACT} ${NEW_VERSION} ${REPO};</command>
-        </hudson.tasks.Shell>
-        <hudson.tasks.Shell>
-          <command>cd &quot;${WORKSPACE}&quot;;
-/opt/apache-maven/bin/mvn -Prelease release:perform</command>
-        </hudson.tasks.Shell>
+        <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+          <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1419853730419</buildStepId>
+          <buildStepArgs>
+            <string>${trigger}</string>
+          </buildStepArgs>
+        </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
+        <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+          <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970428534</buildStepId>
+        </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
+        <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+          <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970530784</buildStepId>
+          <buildStepArgs>
+            <string>acmsl-pom</string>
+          </buildStepArgs>
+        </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
+        <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+          <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970628924</buildStepId>
+          <buildStepArgs>
+            <string>org.acmsl</string>
+            <string>acmsl-pom</string>
+            <string>http://github.com/rydnr/acmsl-pom.git</string>
+          </buildStepArgs>
+        </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
+        <org.jenkinsci.plugins.managedscripts.ScriptBuildStep plugin="managed-scripts@1.1.1">
+          <buildStepId>org.jenkinsci.plugins.managedscripts.ScriptConfig1419853924346</buildStepId>
+        </org.jenkinsci.plugins.managedscripts.ScriptBuildStep>
       </conditionalbuilders>
     </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
   </builders>
   <publishers>
-    <hudson.tasks.Mailer plugin="mailer@1.12">
+    <hudson.tasks.Mailer plugin="mailer@1.11">
       <recipients>jenkins@acm-sl.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>false</sendToIndividuals>
     </hudson.tasks.Mailer>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.15"/>
     <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
   </buildWrappers>
 </project>

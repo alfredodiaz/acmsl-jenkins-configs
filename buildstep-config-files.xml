@@ -10,12 +10,29 @@
         <content>#!/bin/bash
 
 cd /home/jenkins/workspace/$1
-/opt/apache-maven/bin/mvn versions:update-properties</content>
+/opt/apache-maven/bin/mvn -U versions:update-properties</content>
         <args>
           <org.jenkinsci.plugins.managedscripts.ScriptConfig_-Arg>
             <name>job</name>
           </org.jenkinsci.plugins.managedscripts.ScriptConfig_-Arg>
         </args>
+      </org.jenkinsci.plugins.managedscripts.ScriptConfig>
+    </entry>
+    <entry>
+      <string>org.jenkinsci.plugins.managedscripts.ScriptConfig1419877655367</string>
+      <org.jenkinsci.plugins.managedscripts.ScriptConfig>
+        <id>org.jenkinsci.plugins.managedscripts.ScriptConfig1419877655367</id>
+        <name>Use BUILD_NUMBER to generate a new version</name>
+        <comment>Creates a new version</comment>
+        <content>cd &quot;${WORKSPACE}&quot;;
+export MAJOR=$(grep -A 5 &apos;&lt;version.major&gt;&apos; pom.xml | head -n 1 | cut -d &apos;&gt;&apos; -f 2 | cut -d &apos;&lt;&apos; -f 1);
+export MINOR=$(grep -A 5 &apos;&lt;version.minor&gt;&apos; pom.xml | head -n 1 | cut -d &apos;&gt;&apos; -f 2 | cut -d &apos;&lt;&apos; -f 1);
+if [ ! -d target ]; then mkdir &quot;${WORKSPACE}&quot;/target; fi;
+#export SEQ=&quot;$(printf &quot;%04d\n&quot; ${BUILD_NUMBER})&quot;;
+export SEQ=&quot;${BUILD_NUMBER}&quot;;
+echo &quot;${MAJOR}.${MINOR}.${SEQ}&quot; &gt; &quot;${WORKSPACE}&quot;/target/.version;
+</content>
+        <args/>
       </org.jenkinsci.plugins.managedscripts.ScriptConfig>
     </entry>
     <entry>
@@ -43,12 +60,30 @@ echo &quot;TAG_NAME=$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
 cd &quot;${WORKSPACE}&quot;;
 export ARTIFACT=&quot;${1}&quot;;
 if [ ! -d target ]; then mkdir target; fi;
-/opt/apache-maven/bin/mvn -o versions:update-parent | grep &quot;Updating parent from &quot; | tail -n 1 | cut -d&apos; &apos; -f 7 | awk -F&apos;.&apos; &apos;{printf(&quot;%s.%s.%04d\n&quot;, $1, $2, $3);}&apos; &gt; &quot;${WORKSPACE}&quot;/target/.version;
+/opt/apache-maven/bin/mvn -o versions:update-parent | grep &quot;Updating parent from &quot; | tail -n 1 | cut -d&apos; &apos; -f 7 | awk -F&apos;.&apos; &apos;{printf(&quot;%s.%s.%d\n&quot;, $1, $2, $3);}&apos; &gt; &quot;${WORKSPACE}&quot;/target/.version;
 echo &quot;** VERSION: $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
 git checkout -b ${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version);</content>
         <args>
           <org.jenkinsci.plugins.managedscripts.ScriptConfig_-Arg>
             <name>artifact</name>
+          </org.jenkinsci.plugins.managedscripts.ScriptConfig_-Arg>
+        </args>
+      </org.jenkinsci.plugins.managedscripts.ScriptConfig>
+    </entry>
+    <entry>
+      <string>org.jenkinsci.plugins.managedscripts.ScriptConfig1419853730419</string>
+      <org.jenkinsci.plugins.managedscripts.ScriptConfig>
+        <id>org.jenkinsci.plugins.managedscripts.ScriptConfig1419853730419</id>
+        <name>Changes trigger property and updates all versions</name>
+        <comment>Overrides the property &lt;version.${trigger}&gt; in the pom.xml</comment>
+        <content>cd &quot;${WORKSPACE}&quot;;
+export CHILD=&quot;$1&quot;;
+export NEW_VERSION=&quot;$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;
+sed -i &quot;s &lt;version.${CHILD}&gt;\(.*\)&lt;/version.${CHILD}&gt; &lt;version.${CHILD}&gt;${NEW_VERSION}&lt;/version.${CHILD}&gt; g&quot; pom.xml;
+/opt/apache-maven/bin/mvn versions:update-properties;</content>
+        <args>
+          <org.jenkinsci.plugins.managedscripts.ScriptConfig_-Arg>
+            <name>child</name>
           </org.jenkinsci.plugins.managedscripts.ScriptConfig_-Arg>
         </args>
       </org.jenkinsci.plugins.managedscripts.ScriptConfig>
@@ -126,6 +161,17 @@ EOF</content>
       </org.jenkinsci.plugins.managedscripts.ScriptConfig>
     </entry>
     <entry>
+      <string>org.jenkinsci.plugins.managedscripts.ScriptConfig1419853924346</string>
+      <org.jenkinsci.plugins.managedscripts.ScriptConfig>
+        <id>org.jenkinsci.plugins.managedscripts.ScriptConfig1419853924346</id>
+        <name>mvn release:perform</name>
+        <comment>Runs Maven release plugin</comment>
+        <content>cd &quot;${WORKSPACE}&quot;;
+/opt/apache-maven/bin/mvn -Prelease release:perform</content>
+        <args/>
+      </org.jenkinsci.plugins.managedscripts.ScriptConfig>
+    </entry>
+    <entry>
       <string>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970913920</string>
       <org.jenkinsci.plugins.managedscripts.ScriptConfig>
         <id>org.jenkinsci.plugins.managedscripts.ScriptConfig1418970913920</id>
@@ -153,7 +199,8 @@ git branch -D ${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version);</cont
 
 cd &quot;${WORKSPACE}&quot;;
 export ARTIFACT=&quot;${1}&quot;;
-git add pom.xml */pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; &amp;&amp; \
+git add */pom.xml 2&gt; /dev/null;
+git add pom.xml &amp;&amp; git commit -m&quot;Releasing $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; &amp;&amp; \
 git tag -a &quot;${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; -m&quot;Releasing $(cat &quot;${WORKSPACE}&quot;/target/.version)&quot; &amp;&amp; git push origin --tags;
 export NEW_GIT_TAG=&quot;${ARTIFACT}-$(cat &quot;${WORKSPACE}&quot;/target/.version)&quot;;</content>
         <args>

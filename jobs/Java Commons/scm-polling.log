@@ -1,7 +1,0 @@
-Started on Dec 27, 2014 4:58:00 PM
-Using strategy: Default
-[poll] Last Built Revision: Revision e8ee19f9f8afa112fea4a64961ac9c7bd05b3b71 (refs/remotes/origin/master)
- > git ls-remote -h github-with-jenkins-ssh-key:rydnr/java-commons.git master # timeout=10
-[poll] Latest remote head revision is: e8ee19f9f8afa112fea4a64961ac9c7bd05b3b71
-Done. Took 3.1 sec
-No changes
